@@ -1,4 +1,4 @@
-function Order(original_order) {
+function Order(originalOrder) {
     const menu = [
         '0208 川北凉粉',
         '0209 酸辣海带丝',
@@ -101,25 +101,25 @@ function Order(original_order) {
         '0383 酱油炒饭',
     ];
 
-    this.original_order = original_order;
-    this.final_order = function () {
-        var order = [];
-        var patt = /\d{3,}/;
+    this.originalOrder = originalOrder;
+    this.finalOrder = function () {
+        let order = [];
+        let patt = /\d{3,}/;
 
-        var lines = this.original_order.split('\n');
+        let lines = this.originalOrder.split('\n');
 
         lines.forEach(line => {
             if (line.length == 0) {
                 return false;
             }
-            if (order_num = line.match(patt)) {
+            if (orderNum = line.match(patt)) {
                 menu.forEach(dish => {
-                    if (dish.match(order_num + ' ')) {
+                    if (dish.match(orderNum + ' ')) {
                         order.push(dish);
                     }
                 });
             } else {
-                var ordered = false;
+                let ordered = false;
                 menu.forEach(dish => {
                     if (ordered) {
                         return false;
@@ -135,6 +135,6 @@ function Order(original_order) {
     };
 }
 
-const original_order = draft.content;
-var order = new Order(original_order);
-draft.content = order.final_order();
+const originalOrder = draft.content;
+let order = new Order(originalOrder);
+draft.content = order.finalOrder();
