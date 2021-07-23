@@ -141,6 +141,8 @@ var order = new Order(original_order);
 draft.content = order.final_order();
 */
 
-module.exports = {
-    Order: Order
-};
+if (typeof module !== 'undefined') {
+    module.exports = {
+        Order: Order
+    };
+}
