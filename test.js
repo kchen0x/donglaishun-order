@@ -1,4 +1,5 @@
 let {Order} = require('./main-drafts-v4');
+let {OrderNew} = require('./main-drafts-v5');
 
 let currentOrder = '0356\n\
 0358干锅娃娃菜\n\
@@ -10,3 +11,6 @@ let currentOrder = '0356\n\
 
 let order = new Order(currentOrder);
 console.log(order.final_order());
+
+let reorder = new OrderNew(currentOrder);
+console.log(reorder.finalOrder);
