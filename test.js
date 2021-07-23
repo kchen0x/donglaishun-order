@@ -10,7 +10,7 @@ let currentOrder = '0356\n\
 豆腐\n';
 
 let order = new Order(currentOrder);
-console.log(order.final_order());
+console.log(order.finalOrder());
 
 let reorder = new OrderNew(currentOrder);
 console.log(reorder.finalOrder);
