@@ -114,7 +114,7 @@ class Order {
                 if (line.length == 0) {
                     return false;
                 }
-                if ((orderNum = line.match(patt))) {
+                if (orderNum = line.match(patt)) {
                     menu.forEach(dish => {
                         if (dish.match(orderNum + ' ')) {
                             order.push(dish);
