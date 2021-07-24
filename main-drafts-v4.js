@@ -138,6 +138,14 @@ class Order {
     }
 }
 
-const originalOrder = draft.content;
-let order = new Order(originalOrder);
-draft.content = order.finalOrder();
+if (typeof draft !== 'undefined') {
+    const originalOrder = draft.content;
+    let order = new Order(originalOrder);
+    draft.content = order.finalOrder();
+}
+
+if (typeof module !== 'undefined') {
+    module.exports = {
+        Order: Order
+    };
+}
