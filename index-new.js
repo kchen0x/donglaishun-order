@@ -62,8 +62,9 @@ function Order() {
     };
 
     this.buildOrder = async function (order) {
-        this.menu = await this.buildMenu();
-
+        if (!this.menu.length) {
+            this.menu = await this.buildMenu();
+        }
         let result = [];
         let pattern = /\d{3,}/;
         let flag = {};
