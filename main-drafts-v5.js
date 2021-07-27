@@ -162,3 +162,7 @@ if (typeof module !== 'undefined') {
         OrderNew: Order
     };
 }
+
+if (typeof draft !== 'undefined') {
+    generateOrder(draft);
+}
