@@ -1,30 +1,49 @@
-const https = require('https');
+let getMenu;
 const menuUrl = 'https://service-8450sl36-1253601653.gz.apigw.tencentcs.com/release/donglaishun-menu';
 
-function getMenu(url) {
-    return new Promise((resolve, reject) => {
-        https
-            .get(url, resp => {
-                let data = '';
-                // A chunk of data has been received.
-                resp.on('data', chunk => {
-                    data += chunk;
+if (typeof module !== 'undefined') {
+    const https = require('https');
+    getMenu = function (url) {
+        return new Promise((resolve, reject) => {
+            https
+                .get(url, resp => {
+                    let data = '';
+                    // A chunk of data has been received.
+                    resp.on('data', chunk => {
+                        data += chunk;
+                    });
+                    resp.on('end', () => {
+                        try {
+                            let result = JSON.parse(data);
+                            resolve(result.records);
+                        } catch (err) {
+                            reject({
+                                message: 'JSON parse error'
+                            });
+                        }
+                    });
+                })
+                .on('error', err => {
+                    reject(err);
                 });
-                resp.on('end', () => {
-                    try {
-                        let result = JSON.parse(data);
-                        resolve(result.records);
-                    } catch (err) {
-                        reject({
-                            message: 'JSON parse error'
-                        });
-                    }
-                });
-            })
-            .on('error', err => {
-                reject(err);
+        });
+    };
+} else if (typeof draft !== 'undefined') {
+    const http = HTTP.create();
+    getMenu = function (url) {
+        return new Promise((resolve, reject) => {
+            let response = http.request({
+                url: url,
+                method: 'GET'
             });
-    });
+
+            if (response.success) {
+                resolve(response.responseData.records);
+            } else {
+                reject(response.error);
+            }
+        });
+    };
 }
 
 function Order() {
@@ -62,8 +81,9 @@ function Order() {
     };
 
     this.buildOrder = async function (order) {
-        this.menu = await this.buildMenu();
-
+        if (!this.menu.length) {
+            this.menu = await this.buildMenu();
+        }
         let result = [];
         let pattern = /\d{3,}/;
         let flag = {};
