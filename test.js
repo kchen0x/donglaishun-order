@@ -12,5 +12,7 @@ let originalOrder = '0356\n\
 let reorder = new Order(originalOrder);
 console.log(reorder.finalOrder);
 
-let neworder = new NewOrder(originalOrder);
-console.log(neworder.finalOrder);
+let neworder = new NewOrder();
+neworder.buildOrder(originalOrder).then(result => {
+    console.log(result);
+});
