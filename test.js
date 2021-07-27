@@ -1,5 +1,5 @@
-let {Order} = require('./main-drafts-v4');
-let {OrderNew} = require('./main-drafts-v5');
+let {Order} = require('.');
+let {NewOrder} = require('./index-new');
 
 let originalOrder = '0356\n\
 0358干锅娃娃菜\n\
@@ -9,8 +9,8 @@ let originalOrder = '0356\n\
 0329\n\
 豆腐\n';
 
-let order = new Order(originalOrder);
-console.log(order.finalOrder());
-
-let reorder = new OrderNew(originalOrder);
+let reorder = new Order(originalOrder);
 console.log(reorder.finalOrder);
+
+let neworder = new NewOrder(originalOrder);
+console.log(neworder.finalOrder);

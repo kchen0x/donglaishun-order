@@ -1,3 +1,37 @@
+const https = require('https')
+let onlineMenu;
+
+// example of onlineMenu:
+//
+// [{
+//     "id":"recnBeA8o7k3ICbPy",
+//     "fields":{
+//         "type":"main",
+//         "name":"鱼香牛肉丝",
+//         "tags":[
+//             "beef"
+//         ],
+//         "index":"0238"
+//     },
+//     "createdTime":"2021-07-26T17:43:54.000Z"
+// }]
+
+https.get('https://service-8450sl36-1253601653.gz.apigw.tencentcs.com/release/donglaishun-menu', (resp) => {
+  let data = '';
+
+  // A chunk of data has been received.
+  resp.on('data', (chunk) => {
+    data += chunk;
+  });
+
+  resp.on('end', () => {
+    onlineMenu = JSON.parse(data)['records'];
+  });
+
+}).on("error", (err) => {
+  console.log("Error: " + err.message);
+});
+
 const menu = [
     '0208 川北凉粉',
     '0209 酸辣海带丝',
@@ -101,21 +135,22 @@ const menu = [
 ];
 
 function Order(originalOrder) {
-    this.menu = menu.map(dish => {
-        let [number, name] = dish.split(' ');
-        return {
-            number,
-            name,
-            fullName: dish
-        };
-    });
+    // this.menu = menu.map(dish => {
+    //     let [number, name] = dish.split(' ');
+    //     return {
+    //         number,
+    //         name,
+    //         fullName: dish
+    //     };
+    // });
+    this.menu = onlineMenu;
 
     this.getItemByKey = function (array, value, key) {
         let result = (array || []).filter(item => {
-            if (item[key] + '' === value + '') {
+            if (item['fields'][key] + '' === value + '') {
                 return true;
             } else if (value.length > 2) {
-                return item[key].indexOf(value) > -1;
+                return item['fields'][key].indexOf(value) > -1;
             }
             return false;
         });
@@ -159,7 +194,7 @@ function generateOrder(target) {
 
 if (typeof module !== 'undefined') {
     module.exports = {
-        OrderNew: Order
+        NewOrder: Order
     };
 }
 
